@@ -1,0 +1,46 @@
+import java.util.Iterator;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Queue<String> logEntries = new Queue<String>();
+        Stack<String> error = new Stack<String>();
+        Scanner scan = new Scanner(System.in);
+
+        int infoCount = 0, warnCount = 0, errorCount = 0, memoryWarnings = 0;
+
+        while(scan.hasNextLine()){
+            String logEntry = scan.nextLine();
+            logEntries.enqueue(logEntry);
+        }
+
+        while(!logEntries.isEmpty()){
+            String logEntry = logEntries.dequeue();
+
+            if(logEntry.contains("INFO")){
+                infoCount++;
+            }
+            else if(logEntry.contains("WARN")){
+                warnCount++;
+                if(logEntry.contains("Memory")){
+                    memoryWarnings++;
+                }
+            }
+            else if(logEntry.contains("ERROR")){
+                errorCount++;
+                error.push(logEntry);
+            }
+        }
+
+        for(int i = 0; i < 100; i++){
+            StdOut.println(error.pop());
+        }
+
+        StdOut.println();
+        StdOut.println("Count of entries containing 'INFO': " + infoCount);
+        StdOut.println("Count of entries containing 'WARN': " + warnCount);
+        StdOut.println("Count of entries under 'WARN' that contain 'Memory': " + memoryWarnings);
+        StdOut.println("Count of entries containing 'ERROR': " + errorCount);
+
+    }
+}
